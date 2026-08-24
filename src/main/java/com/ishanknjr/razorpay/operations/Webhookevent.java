@@ -46,7 +46,7 @@ public class Webhookevent {
 
     private LocalDateTime nextretryat ;
 
-    private LocalDateTime lastreasponsecode;
+    private LocalDateTime lastattemptAt;
 
     @Column(length = 1000)
     private String lastreasponsebody;

@@ -1,6 +1,6 @@
 package com.ishanknjr.razorpay.merchant.entity;
 
-import com.ishanknjr.razorpay.common.enums.BussinessType;
+import com.ishanknjr.razorpay.common.enums.BusinessType;
 import com.ishanknjr.razorpay.common.enums.MerchantStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,14 +10,12 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "merchant")
-
-//@Getter
-//@Setter
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 // all these annotations are coming from the lombok
-
 public class Merchant {
 
     @Id
@@ -35,7 +33,7 @@ public class Merchant {
 
 @Column( length = 20)
 @Enumerated(EnumType.ORDINAL)
-    public BussinessType bussinessType;
+    public BusinessType bussinessType;
 
 
     @Column( length = 50)

@@ -26,7 +26,7 @@ public class DLQevents{
     private UUID finalerror ;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Column(nullable = false , columnDefinition = "jsnob")
+    @Column(nullable = false , columnDefinition = "jsonb")
     private Map<String , Object> payload;
 
     private LocalDateTime movedAt;

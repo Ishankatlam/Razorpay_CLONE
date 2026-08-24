@@ -1,6 +1,6 @@
 package com.ishanknjr.razorpay.common.enums;
 
-public enum BussinessType {
+public enum BusinessType {
 LLP ,
     PROPRIETORSHIP,
     PARTNERSHIP,
