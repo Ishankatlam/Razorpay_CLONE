@@ -1,16 +1,20 @@
-package com.ishanknjr.razorpay.payment;
+package com.ishanknjr.razorpay.payment.Entity;
 
 import com.ishanknjr.razorpay.common.entity.Money;
 import com.ishanknjr.razorpay.common.enums.refundstatus;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
-import org.hibernate.type.descriptor.jdbc.SqlTypedJdbcType;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "refund")
 public class refund {

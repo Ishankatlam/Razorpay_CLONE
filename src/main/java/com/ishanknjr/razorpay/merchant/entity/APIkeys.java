@@ -4,6 +4,7 @@ import com.ishanknjr.razorpay.common.enums.Environment;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -29,6 +30,9 @@ public class APIkeys {
      @Column(nullable = false , length = 200)
      private String keySecretHash;
 
+     @Column( length = 200)
+     private String prevoiusKeySecretHash;
+
      @Enumerated(EnumType.STRING)
      @Column(nullable = false , length = 10)
      private Environment environment ;
@@ -39,5 +43,5 @@ public class APIkeys {
      private java.time.LocalDateTime createdAt;
      private java.time.LocalDateTime rotatedAt;
      private java.time.LocalDateTime gracePeriodExpiresAt;
-
+     private LocalDateTime lastUsedAt;
 }

@@ -1,13 +1,18 @@
-package com.ishanknjr.razorpay.payment;
+package com.ishanknjr.razorpay.payment.Entity;
 
 import com.ishanknjr.razorpay.common.enums.paymentactor;
 import com.ishanknjr.razorpay.common.enums.paymentevent;
 import com.ishanknjr.razorpay.common.enums.paymentstatus;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Entity
 @Table(name = "payment_transition_log")
 public class paymenttransition {

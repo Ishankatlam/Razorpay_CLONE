@@ -10,10 +10,11 @@ import com.ishanknjr.razorpay.merchant.Repository.MerchantRepository;
 import com.ishanknjr.razorpay.merchant.Service.AuthService;
 import com.ishanknjr.razorpay.merchant.entity.AppUser;
 import com.ishanknjr.razorpay.merchant.entity.Merchant;
-import jakarta.transaction.Transactional;
+//import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +25,7 @@ public class AuthServiceImpl implements AuthService {
     private final MerchantRepository merchantRepository;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public MerchantReasponse signup(MerchantSignupRequest request) {
  
         if(merchantRepository.existsByEmail(request.email()))
