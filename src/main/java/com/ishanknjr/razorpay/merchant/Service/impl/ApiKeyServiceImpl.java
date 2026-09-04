@@ -5,6 +5,7 @@ import com.ishanknjr.razorpay.common.util.RandomizerUtil;
 import com.ishanknjr.razorpay.merchant.DTO.request.CreateApiKeyRequest;
 import com.ishanknjr.razorpay.merchant.DTO.request.Reasponse.ApiKeyCreateResponse;
 import com.ishanknjr.razorpay.merchant.DTO.request.Reasponse.ApiKeyResponse;
+import com.ishanknjr.razorpay.merchant.Mapper.ApiKeyMapper;
 import com.ishanknjr.razorpay.merchant.Repository.ApiKeyRepository;
 import com.ishanknjr.razorpay.merchant.Repository.MerchantRepository;
 import com.ishanknjr.razorpay.merchant.Service.ApiKeyService;
@@ -34,6 +35,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final MerchantRepository merchantRepository;
     private final ApiKeyRepository apiKeyRepository;
+    private final ApiKeyMapper apiKeyMapper;
     @Override
     public ApiKeyCreateResponse create(UUID merchantId, CreateApiKeyRequest request) {
         Merchant merchant = merchantRepository.findById(merchantId)
@@ -45,7 +47,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
         String rawSecret =RandomizerUtil.randomBase64(24); // todorpace with encrypttt adding random
 //        String keyId = "rzp_" + request.environment().name().toUpperCase() + RandomizerUtil.randomBase64(24);
-
+//         todo encode with the bcrypt encoder
 
         APIkeys apiKey = APIkeys.builder()
                 .merchant(merchant)
@@ -62,17 +64,8 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     @Override
     public List<ApiKeyResponse> listByMerchant(UUID merchantId) {
 
-        return apiKeyRepository.findByMerchant_Id(merchantId)
-                .stream()
-                .map(apiKey -> new ApiKeyResponse(
-                        apiKey.getId(),
-                        apiKey.getKeyId(),
-                        apiKey.getEnvironment(),
-                        apiKey.isEnabled(),
-                        apiKey.getLastUsedAt(),
-                        null
-                ))
-                .toList();
+        return apiKeyMapper.toResponseList(apiKeyRepository.findByMerchant_Id(merchantId));
+
     }
 
     @Override
@@ -90,6 +83,11 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         APIkeys apikey = apiKeyRepository.findById(apiKeyId)
                 .filter(k->k.getMerchant().getId().equals(merchantId))
                 .orElseThrow(()-> new ResourceNotFoundException("ApiKey" , apiKeyId));
+
+        if(apikey.isEnabled()){
+            throw new RuntimeException("Cannot Rotate Disabled key");
+        }
+
         String newrawSecret =RandomizerUtil.randomBase64(24);
         apikey.setPrevoiusKeySecretHash(apikey.getKeySecretHash());
         apikey.setKeySecretHash(newrawSecret);  // todorpace with encrypttt adding random
@@ -97,6 +95,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         apikey.setGracePeriodExpiresAt(LocalDateTime.now().plusHours(24));
         apikey = apiKeyRepository.save(apikey);
         return new ApiKeyCreateResponse(apikey.getId() ,apikey.getKeyId()   ,newrawSecret , apikey.getEnvironment() );
+//        note raw secret dosent allow us to use the map struct here
     }
 
 

@@ -44,11 +44,4 @@ public class paymenttransition {
     @Column(name = "occured_at" , nullable = false)
     private LocalDateTime occuredAt;
 
-
-
-
-
-
-
-
 }

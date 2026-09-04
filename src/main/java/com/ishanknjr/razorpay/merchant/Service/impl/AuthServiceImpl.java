@@ -5,6 +5,7 @@ import com.ishanknjr.razorpay.common.enums.UserRole;
 import com.ishanknjr.razorpay.common.exceptions.DuplicateResourceException;
 import com.ishanknjr.razorpay.merchant.DTO.request.MerchantSignupRequest;
 import com.ishanknjr.razorpay.merchant.DTO.request.Reasponse.MerchantReasponse;
+import com.ishanknjr.razorpay.merchant.Mapper.MerchantMapper;
 import com.ishanknjr.razorpay.merchant.Repository.AppUserRepository;
 import com.ishanknjr.razorpay.merchant.Repository.MerchantRepository;
 import com.ishanknjr.razorpay.merchant.Service.AuthService;
@@ -23,6 +24,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final AppUserRepository appUserRepository;
     private final MerchantRepository merchantRepository;
+    private final MerchantMapper merchantMapper;
 
     @Override
     @Transactional(readOnly = true)
@@ -32,14 +34,8 @@ public class AuthServiceImpl implements AuthService {
         {
             throw new DuplicateResourceException("Duplicate Merchant_Email " , "Merchant with email already Exists: " + request.email() );
         }
-        Merchant merchant = Merchant.builder()
-                .bussinessname(request.businessName())
-                .bussinessType(request.businessType())
-                .email(request.email())
-                .name(request.name())
-                .status(MerchantStatus.PENDING_KYC)
-                .build();
-
+          Merchant merchant = merchantMapper.toEntityFromSignupRequest(request);
+          merchant.setStatus(MerchantStatus.PENDING_KYC);
         merchant = merchantRepository.save(merchant);
 
         AppUser appUser = AppUser.builder()
@@ -52,6 +48,6 @@ public class AuthServiceImpl implements AuthService {
 
 
 
-        return new MerchantReasponse(merchant.getId() ,merchant.getName() ,  merchant.getEmail() , merchant.getBussinessname() , merchant.getBussinessType() , merchant.getStatus());
+        return merchantMapper.toResponse(merchant);
     }
 }

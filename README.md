@@ -127,3 +127,68 @@ GlobalExceptionHandler
   "status": 409,
   "message": "Merchant already exists"
 }
+
+
+
+Absolutely. For your GitHub README, you can add a **Today's Progress / Development Log** section like this:
+
+# Today's Development Progress
+
+### Order Management & Order Creation
+
+* Implemented the **Order Creation API** using Spring Boot.
+* Created the `OrderRecord` JPA entity with:
+
+  * UUID-based order ID
+  * Merchant ID
+  * Amount and currency
+  * Receipt
+  * Order status
+  * Attempts
+  * Notes (`JSONB`)
+  * Expiry time
+  * Creation timestamp
+* Implemented `OrderStatus` enum:
+
+  * `CREATED`
+  * `PENDING`
+  * `PAID`
+  * `FAILED`
+  * `CANCELLED`
+  * `EXPIRED`
+* Implemented `OrderServiceImpl` with:
+
+  * Duplicate receipt validation
+  * Automatic order expiry
+  * Default order status as `CREATED`
+  * Initial attempts as `0`
+  * Order persistence using Spring Data JPA
+* Created `CreateOrderRequest` DTO with validation.
+* Implemented `Money` as an `@Embeddable` value object.
+* Configured PostgreSQL `JSONB` support for order notes.
+* Debugged and fixed a PostgreSQL `DataIntegrityViolationException`.
+* Identified and removed the obsolete duplicate `orderstatus` database column.
+* Corrected the database mapping to use `order_status`.
+* Successfully tested the Order Creation API and verified that orders are persisted with `CREATED` status.
+
+### API Testing
+
+Example order creation request:
+
+```json
+{
+  "amount": {
+    "amountUnits": 500,
+    "currency": "INR"
+  },
+  "receipt": "receipt_001",
+  "notes": {
+    "item": "Laptop"
+  },
+  "expiresAt": "2026-08-26T22:00:00"
+}
+```
+
+### Key Learning
+
+> Debugged a real JPA/Hibernate + PostgreSQL schema mismatch and learned how entity field naming, Hibernate naming strategies, and existing database columns can cause persistence errors.
