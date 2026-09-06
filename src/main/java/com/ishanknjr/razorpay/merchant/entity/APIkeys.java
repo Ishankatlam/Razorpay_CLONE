@@ -1,20 +1,27 @@
 package com.ishanknjr.razorpay.merchant.entity;
 
+import com.ishanknjr.razorpay.common.entity.BaseEntity;
 import com.ishanknjr.razorpay.common.enums.Environment;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "api_key")
+@Table(name = "api_key",
+        indexes = {
+                @Index(name = "idx_api_key_merchant", columnList = "merchant_id"),
+                @Index(name = "idx_api_key_merchant_env" , columnList = "merchant_id, environment , enabled" )
+        })
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class APIkeys {
+public class APIkeys extends BaseEntity {
 
      @Id
      @GeneratedValue(strategy = GenerationType.UUID)
@@ -40,8 +47,12 @@ public class APIkeys {
      @Column(nullable = false)
      @Builder.Default
      private boolean enabled  = true ;
-     private java.time.LocalDateTime createdAt;
-     private java.time.LocalDateTime rotatedAt;
-     private java.time.LocalDateTime gracePeriodExpiresAt;
+     @CreationTimestamp
+     private LocalDateTime createdAt;
+     private LocalDateTime rotatedAt;
+     private LocalDateTime gracePeriodExpiresAt;
      private LocalDateTime lastUsedAt;
+
+     @LastModifiedDate
+     private LocalDateTime updatedAt;
 }

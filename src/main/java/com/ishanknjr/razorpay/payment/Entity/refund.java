@@ -25,7 +25,7 @@ public class refund {
 
     @ManyToOne(fetch = FetchType.LAZY , optional = false)
     @JoinColumn(name = "payment_id" , nullable = false )
-    private payment payment ;
+    private Payment payment ;
 
     @Column(nullable = false )
     private UUID merchandId;

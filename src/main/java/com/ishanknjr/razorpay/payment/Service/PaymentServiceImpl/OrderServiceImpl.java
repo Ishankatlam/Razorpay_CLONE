@@ -4,7 +4,7 @@ import com.ishanknjr.razorpay.common.exceptions.BusinessViolationException;
 import com.ishanknjr.razorpay.common.exceptions.DuplicateResourceException;
 import com.ishanknjr.razorpay.common.exceptions.ResourceNotFoundException;
 import com.ishanknjr.razorpay.payment.Entity.OrderRecord;
-import com.ishanknjr.razorpay.payment.Entity.payment;
+import com.ishanknjr.razorpay.payment.Entity.Payment;
 import com.ishanknjr.razorpay.payment.Enums.OrderStatus;
 import com.ishanknjr.razorpay.payment.Mapper.OrderMapper;
 import com.ishanknjr.razorpay.payment.Mapper.PaymentMapper;
@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -104,7 +103,7 @@ public class OrderServiceImpl implements OrderService {
       OrderRecord order =  orderRepository.findByIdAndMerchantId(orderId , merchantId)
                 .orElseThrow(()-> new ResourceNotFoundException("Order" , orderId));
 
-        List<payment> paymentList = paymentRepository.findByOrder(order);
+        List<Payment> paymentList = paymentRepository.findByOrder(order);
         return paymentMapper.toResponseList(paymentList);
 
     }

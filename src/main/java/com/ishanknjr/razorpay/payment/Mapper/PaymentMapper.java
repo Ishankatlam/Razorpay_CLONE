@@ -1,7 +1,6 @@
 package com.ishanknjr.razorpay.payment.Mapper;
 
-import ch.qos.logback.core.model.ComponentModel;
-import com.ishanknjr.razorpay.payment.Entity.payment;
+import com.ishanknjr.razorpay.payment.Entity.Payment;
 import com.ishanknjr.razorpay.payment.dto.Response.PaymentResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,9 +11,9 @@ import java.util.List;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface PaymentMapper {
     @Mapping(target = "orderId" , source = "order.id")
-    PaymentResponse toResponse(payment payment);
+    PaymentResponse toResponse(Payment payment);
 
     @Mapping(target = "orderId" , source = "order.id")
-    List<PaymentResponse> toResponseList(List<payment> paymentList);
+    List<PaymentResponse> toResponseList(List<Payment> paymentList);
 
 }

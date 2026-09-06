@@ -1,12 +1,13 @@
 package com.ishanknjr.razorpay.operations;
 
+import com.ishanknjr.razorpay.common.entity.BaseEntity;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.Id;
 
 import java.util.UUID;
 
 @Embeddable
-public class settlementpaymentId {
+public class settlementpaymentId{
 
     
     private UUID settlementId;

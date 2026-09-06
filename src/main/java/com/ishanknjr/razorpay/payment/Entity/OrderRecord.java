@@ -14,6 +14,10 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Table(name = "order_record" ,indexes = {@Index(name = "idx_order_id_merchant_id" , columnList = "id , merchant_id") ,
+        @Index(name = "idx_order_merchant_id" , columnList = " merchant_id")
+}
+)
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -35,6 +39,7 @@ public class OrderRecord {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false , length = 100)
+
     @Builder.Default
     private OrderStatus orderStatus = OrderStatus.CREATED;
 
